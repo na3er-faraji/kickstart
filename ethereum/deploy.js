@@ -2,11 +2,10 @@
 require("dotenv").config();
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const Web3 = require("web3");
+const { Web3 } = require("web3");
 const compiledFactory = require("./build/CampaignFactory.json");
 const mnemonicPhrase = process.env.ACCOUNT_MNEMONIC;
 const network = process.env.ENDPOINT;
-
 const provider = new HDWalletProvider({
   mnemonic: {
     phrase: mnemonicPhrase
@@ -21,7 +20,7 @@ const deploy = async () => {
 
   const result = await new web3.eth.Contract(compiledFactory.abi)
     .deploy({ data: "0x" + compiledFactory.evm.bytecode.object })
-    .send({ gas: 4712388, from: accounts[0] })
+    .send({ from: accounts[0] })
     .catch(error => {
       console.log("error", error);
     })
